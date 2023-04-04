@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>P5 Embed Component Example</title>
+	<style>
+		html, body {
+			margin: 0px;
+			height: 100%;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+  </style>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+</head>
+<body>
+	<div id="my-p5-sketch"></div>
+
+	<script>
+		var sketch = function(p) {
+			let lines = [];
+			let noiseScale = 0.02;
+			let colors = ['#FFCC00', '#FF6B6B', '#8FB2FF'];
+
+			p.setup = function() {
+				p.createCanvas(p.windowWidth, p.windowHeight);
+				p.background("#333333");
+				p.strokeWeight(1);
+			}
+
+			p.draw = function() {
+				if (p.random(1) < 0.01) {
+					let x1 = p.random(p.width);
+					let y1 = p.random(p.height);
+					let x2 = p.random(p.width);
+					let y2 = p.random(p.height);
+					lines.push({x1, y1, x2, y2, color: p.random(colors)});
+				}
+
+				for (let i = 0; i < lines.length; i++) {
+					let {x1, y1, x2, y2, color} = lines[i];
+					p.stroke(color);
+					p.line(x1, y1, x2, y2);
+					let noiseVal1 = p.noise(x1 * noiseScale, y1 * noiseScale, p.frameCount * noiseScale);
+					let noiseVal2 = p.noise(x2 * noiseScale, y2 * noiseScale, p.frameCount * noiseScale);
+					lines[i].x1 += noiseVal1 * 3 - 1.5;
+					lines[i].y1 += noiseVal1 * 3 - 1.5;
+					lines[i].x2 += noiseVal2 * 3 - 1.5;
+					lines[i].y2 += noiseVal2 * 3 - 1.5;
+				}
+
+				// Remove lines that go off screen
+				lines = lines.filter(line => line.x1 > 0 && line.x1 < p.width && line.y1 > 0 && line.y1 < p.height && line.x2 > 0 && line.x2 < p.width && line.y2 > 0 && line.y2 < p.height);
+			}
+
+			p.mouseMoved = function() {
+				p.noiseSeed(p.random(100));
+				noiseScale = p.random(0.01, 0.05);
+				//p.background("#333333");
+				lines = [];
+			}
+		}
+
+		new p5(sketch, 'my-p5-sketch');
+	</script>
+</body>
+</html>
