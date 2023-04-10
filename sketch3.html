@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>sketch4</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+
+</head>
+<body>
+
+		<div id="sketch3"></div>
+
+  <script>
+    let lines = [];
+    let numLines = 20;
+    let lineWidth = 5;
+    let lineSpeed = 0.01;
+    let lineFillProb = 0.1;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      background(255);
+      strokeWeight(lineWidth);
+      stroke(0);
+      for (let i = 0; i < numLines; i++) {
+        let x1 = random(width);
+        let y1 = random(height);
+        let x2 = random(width);
+        let y2 = random(height);
+        lines.push(new Line(x1, y1, x2, y2));
+      }
+    }
+
+    function draw() {
+      for (let line of lines) {
+        line.draw();
+        line.move();
+      }
+    }
+
+    class Line {
+      constructor(x1, y1, x2, y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.t1 = random(100);
+        this.t2 = random(100);
+        this.speed = lineSpeed;
+        this.filled = random() < lineFillProb;
+      }
+      
+      draw() {
+        if (this.filled) {
+          stroke(0);
+          line(this.x1, this.y1, this.x2, this.y2);
+        } else {
+          stroke(255);
+          line(this.x1, this.y1, this.x2, this.y2);
+        }
+      }
+      
+      move() {
+        // Update the time variables to get a new noise value for each frame
+        this.t1 += this.speed;
+        this.t2 += this.speed;
+        // Update the positions of the endpoints based on Perlin noise
+        this.x1 = noise(this.t1) * width;
+        this.y1 = noise(this.t1 + 1000) * height;
+        this.x2 = noise(this.t2 + 2000) * width;
+        this.y2 = noise(this.t2 + 3000) * height;
+      }
+    }
+new p5(sketch3, 'sketch3');
+  </script>
+</body>
+</html>
