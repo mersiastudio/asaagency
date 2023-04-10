@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>P5 Embed Component Example</title>
+	<style>
+		html, body {
+			margin: 0px;
+			padding: 0;
+			overflow: hidden;
+			height: 100%;
+			width: 100%;
+		}
+  </style>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+</head>
+<body>
+
+	<div id="sketch4"></div>
+
+	<script>
+	
+	let lines = [];
+let noiseScale = 0.02;
+let colors = ['#FFCC00', '#FF6B6B', '#8FB2FF'];
+let maxLines = 200;
+let lifespan = 100;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background("#ffffff");
+  strokeWeight(1);
+}
+
+function draw() {
+  for (let i = 0; i < lines.length; i++) {
+    let {x1, y1, x2, y2, color, lifespan} = lines[i];
+    stroke(color);
+    line(x1, y1, x2, y2);
+    let noiseVal1 = noise(x1 * noiseScale, y1 * noiseScale, frameCount * noiseScale);
+    let noiseVal2 = noise(x2 * noiseScale, y2 * noiseScale, frameCount * noiseScale);
+    lines[i].x1 += noiseVal1 * 3 - 1;
+    lines[i].y1 += noiseVal1 * 3 - 1;
+    lines[i].x2 += noiseVal2 * 3 - 1;
+    lines[i].y2 += noiseVal2 * 3 - 1;
+    lines[i].lifespan--;
+  }
+  
+  // Remove lines that have exceeded their lifespan
+  lines = lines.filter(line => 
+    line.lifespan > 10
+  );
+}
+
+function mouseClicked() {
+  let x = mouseX;
+  let y = mouseY;
+  for (let i = 0; i < 100; i++) {
+    let angle = random(TWO_PI);
+    let radius = random(10, 25);
+    let x1 = x + cos(angle) * 2*radius;
+    let y1 = y + sin(angle) * 2*radius;
+    let x2 = x + cos(angle + PI) * radius;
+    let y2 = y + sin(angle + PI) * radius;
+    lines.push({
+      x1,
+      y1,
+      x2,
+      y2,
+      color: random(colors),
+      lifespan
+    });
+  }
+}
+
+function mouseMoved() {
+  noiseSeed(random(100));
+  noiseScale = random(0.01, 0.05);
+  lines = [];
+}
+
+	new p5(sketch4, 'sketch4');
+	</script>
+
+</body>
+</html>
