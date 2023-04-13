@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sketch1</title>
+	<style>
+		html, body {
+			margin: 0px;
+			padding: 0;
+			overflow: hidden;
+			height: 100%;
+			width: 100%;
+			
+			justify-content: center;
+			align-items: center;
+		}
+  </style>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+</head>
+<body>
+
+	<div id="sketch1"></div>
+	
+	<script>
+
+let angleX = 0;
+let angleY = 0;
+let startX;
+let startY;
+let isDragging = false;
+let spinSpeed = 0.01;
+
+function setup() {
+  createCanvas(400, 400, WEBGL);
+}
+
+function draw() {
+  background(0,0,0,0);
+  
+  // calculate the position of the mouse relative to the center of the cube
+  let distanceX = mouseX - width / 2;
+  let distanceY = mouseY - height / 2;
+  let distance = sqrt(distanceX * distanceX + distanceY * distanceY);
+  
+  // check if the mouse is directly over the cube
+  if (distance < 50) {
+    spinSpeed = 0;
+  } else {
+    spinSpeed = 0.01;
+    angleX += spinSpeed;
+    angleY += spinSpeed;
+  }
+  
+  rotateX(angleX);
+  rotateY(angleY);
+  box(100);
+}
+
+function mousePressed() {
+  startX = mouseX;
+  startY = mouseY;
+  isDragging = true;
+}
+
+function mouseReleased() {
+  isDragging = false;
+}
+
+function mouseDragged() {
+  if (isDragging) {
+    let deltaX = mouseX - startX;
+    let deltaY = mouseY - startY;
+    angleX += deltaY * 0.01;
+    angleY += deltaX * 0.01;
+    startX = mouseX;
+    startY = mouseY;
+  }
+}
+
+
+new p5(sketch1, 'sketch1');
+	</script>
+
+</body>
+</html>
