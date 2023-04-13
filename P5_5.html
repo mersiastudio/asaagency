@@ -24,7 +24,7 @@
 	<script>
 
 let particles = [];
-let numParticles = 200;
+let numParticles = 300;
 let colors = ['#FFCC00', '#FF8E43', '#8FB2FF']; //#FF8E43
 
 function setup() {
@@ -55,7 +55,7 @@ class Particle {
     this.color = random(colors);
     this.size = random(5, 20);
     this.maxSpeed = 7;
-    this.maxForce = 0.3;
+    this.maxForce = 0.001;
     this.target = createVector(random(width), random(height));
   }
 
