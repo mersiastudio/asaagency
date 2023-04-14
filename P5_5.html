@@ -29,19 +29,20 @@ let colors = ['#FFCC00', '#FF8E43', '#8FB2FF']; //#FF8E43
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background("#ffffff");
   for (let i = 0; i < numParticles; i++) {
     particles.push(new Particle());
   }
 }
 
 function draw() {
-  clear();
+  clear(); // clears the background each frame
+  blendMode(DIFFERENCE); // sets the blend mode to "difference" for the particles
   for (let i = 0; i < particles.length; i++) {
     particles[i].update();
     particles[i].display();
     particles[i].hover();
   }
+  blendMode(BLEND); // sets the blend mode back to default for any other elements on the canvas
 }
 
 function windowResized() {
@@ -95,7 +96,6 @@ class Particle {
       this.size = 30;
     } else {
       this.color = this.originalColor;
-      
     }
   }
 }
