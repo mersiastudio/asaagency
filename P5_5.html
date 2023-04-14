@@ -40,6 +40,7 @@ function draw() {
   for (let i = 0; i < particles.length; i++) {
     particles[i].update();
     particles[i].display();
+    particles[i].hover();
   }
 }
 
@@ -53,6 +54,7 @@ class Particle {
     this.velocity = createVector(random(-1, 1), random(-1, 1));
     this.acceleration = createVector();
     this.color = random(colors);
+    this.originalColor = this.color;
     this.size = random(5, 20);
     this.maxSpeed = 7;
     this.maxForce = 0.001;
@@ -84,6 +86,17 @@ class Particle {
     noStroke();
     fill(this.color);
     ellipse(this.position.x, this.position.y, this.size);
+  }
+  
+  hover() {
+    let d = dist(mouseX, mouseY, this.position.x, this.position.y);
+    if (d < 50) {
+      this.color = color('#000000');
+      this.size = 30;
+    } else {
+      this.color = this.originalColor;
+      
+    }
   }
 }
 
