@@ -57,7 +57,7 @@ class Particle {
     this.color = random(colors);
     this.originalColor = this.color;
     this.size = random(5, 20);
-    this.maxSpeed = 7;
+    this.maxSpeed = 1;
     this.maxForce = 0.001;
     this.target = createVector(random(width), random(height));
   }
@@ -93,13 +93,12 @@ class Particle {
   let d = dist(mouseX, mouseY, this.position.x, this.position.y);
   if (d < 50) {
     let repelForce = createVector(this.position.x - mouseX, this.position.y - mouseY);
-    repelForce.setMag(1 / d*6);
+    repelForce.setMag(1 / d*10);
     this.acceleration.add(repelForce);
   }
 }
-
+  
 }
-
 
 new p5(sketch1, 'sketch1');
 	</script>
