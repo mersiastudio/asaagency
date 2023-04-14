@@ -90,15 +90,16 @@ class Particle {
   }
   
   hover() {
-    let d = dist(mouseX, mouseY, this.position.x, this.position.y);
-    if (d < 50) {
-      this.color = color('#000000');
-      //this.size = 30;
-    } else {
-      this.color = this.originalColor;
-    }
+  let d = dist(mouseX, mouseY, this.position.x, this.position.y);
+  if (d < 50) {
+    let repelForce = createVector(this.position.x - mouseX, this.position.y - mouseY);
+    repelForce.setMag(1 / d*6);
+    this.acceleration.add(repelForce);
   }
 }
+
+}
+
 
 new p5(sketch1, 'sketch1');
 	</script>
