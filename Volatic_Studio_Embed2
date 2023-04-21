@@ -32,7 +32,7 @@
     function setup() {
       createCanvas(windowWidth, windowHeight);
       background(255);
-      strokeWeight(lineWidth);a
+      strokeWeight(lineWidth);
       stroke('#161616');
       for (let i = 0; i < numLines; i++) {
         let x1 = random(width);
