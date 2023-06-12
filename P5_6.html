@@ -39,6 +39,7 @@ function draw() {
   translate(0, 0, 0);
   rotateX(frameCount * 0.02);
   rotateY(frameCount * 0.01);
+	blendMode(DIFFERENCE);
   for (let i = 0; i < particles.length; i++) {
     particles[i].update();
     particles[i].display();
