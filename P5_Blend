@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>sketch1</title>
+  <style>
+    html, body {
+      margin: 0px;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+</head>
+<body>
+  <div id="sketch1"></div>
+
+  <script>
+    let particles = [];
+    let numParticles = 1500;
+
+    function setup() {
+      createCanvas(400, 400, WEBGL);
+      for (let i = 0; i < numParticles; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function draw() {
+      clear();
+      camera(0, 0, 800);
+      translate(0, 0, 0);
+      rotateX(frameCount * 0.02);
+      rotateY(frameCount * 0.01);
+      
+      // Set blend mode to difference
+      blendMode(DIFFERENCE);
+      
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].display();
+      }
+    }
+
+    class Particle {
+      // ... Existing code for Particle class
+
+      display() {
+        noStroke();
+        fill(this.color);
+        push();
+        translate(this.pos.x, this.pos.y, this.pos.z);
+        sphere(this.radius);
+        pop();
+      }
+
+      // ... Existing code for Particle class
+    }
+
+    new p5(sketch1, 'sketch1');
+  </script>
+</body>
+</html>
