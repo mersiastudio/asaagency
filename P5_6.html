@@ -55,7 +55,11 @@ class Particle {
     this.maxSpeed = 10;
     this.maxForce = .01;
     this.radius = random(2, 8);
-    this.color = color('#EEE9E2'); //161616, FFFFFF , #EEE9E2
+    //this.color = color('#EEE9E2'); //161616, FFFFFF , #EEE9E2
+    
+	  // Define the start and end colors for the gradient
+    this.colorStart = color('#EEE9E2');
+    this.colorEnd = color('#161616');
   }
 
   update() {
@@ -75,6 +79,13 @@ class Particle {
     home.mult(0.5);
     this.applyForce(seek);
     this.applyForce(home);
+        // Rest of the update() code...
+    
+    // Calculate the interpolation ratio based on particle position
+    let ratio = map(this.pos.z, -200, 200, 0, 1);
+    
+    // Interpolate between the start and end colors
+    this.color = lerpColor(this.colorStart, this.colorEnd, ratio);
   }
 
   display() {
